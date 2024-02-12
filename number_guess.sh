@@ -20,7 +20,7 @@ get_user_info() {
 
 # Function to generate a random number between 1 and 1000
 generate_secret_number() {
-    echo $((1 + RANDOM % 10))
+    echo $((1 + RANDOM % 1000))
 }
 
 # Function to check if a username is valid (at most 22 characters)
