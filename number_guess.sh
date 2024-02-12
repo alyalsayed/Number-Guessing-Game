@@ -20,7 +20,7 @@ get_user_info() {
 
 # Function to generate a random number between 1 and 1000
 generate_secret_number() {
-    echo $((1 + RANDOM % 1000))
+    echo $((1 + RANDOM % 10))
 }
 
 # Function to check if a username is valid (at most 22 characters)
@@ -66,11 +66,12 @@ play_game() {
     while true; do
         echo  "Guess the secret number between   1 and   1000: " 
         read guess
+        ((number_of_guesses++))
         if ! [[ "$guess" =~ ^[0-9]+$ ]]; then
             echo "That is not an integer, guess again:"
-            ((number_of_guesses++))
+            
         else
-            ((number_of_guesses++))
+            
             if [ "$guess" -eq "$secret_number" ]; then
                 echo "You guessed it in $number_of_guesses tries. The secret number was $secret_number. Nice job!"
                 # Update the best game if it's the first game or fewer guesses were made
