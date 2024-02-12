@@ -83,7 +83,7 @@ play_game() {
     done
 }
 
-echo -e "\nEnter your username:"
+echo  "Enter your username:"
 read username
 
 if is_valid_username "$username"; then
