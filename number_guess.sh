@@ -68,6 +68,7 @@ play_game() {
         read guess
         if ! [[ "$guess" =~ ^[0-9]+$ ]]; then
             echo "That is not an integer, guess again:"
+            ((number_of_guesses++))
         else
             ((number_of_guesses++))
             if [ "$guess" -eq "$secret_number" ]; then
