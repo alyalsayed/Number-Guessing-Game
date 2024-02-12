@@ -17,7 +17,6 @@ get_user_info() {
     best_game=${info[1]}
 }
 
-
 # Function to generate a random number between 1 and 1000
 generate_secret_number() {
     echo $((1 + RANDOM % 1000))
@@ -43,8 +42,6 @@ user_exists() {
     fi
 }
 
-
-
 # Function to update user information in the database
 update_user_info() {
     username="$1"
@@ -68,10 +65,8 @@ play_game() {
         read guess
         ((number_of_guesses++))
         if ! [[ "$guess" =~ ^[0-9]+$ ]]; then
-            echo "That is not an integer, guess again:"
-            
+            echo "That is not an integer, guess again:" 
         else
-            
             if [ "$guess" -eq "$secret_number" ]; then
                 echo "You guessed it in $number_of_guesses tries. The secret number was $secret_number. Nice job!"
                 # Update the best game if it's the first game or fewer guesses were made
