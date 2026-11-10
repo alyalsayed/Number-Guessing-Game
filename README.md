@@ -1,28 +1,163 @@
 # Number Guessing Game
 
-This is the result to complete the Number Guessing Game project. 
-Instructions for building this project can be found at 
-[https://www.freecodecamp.org/learn/relational-database/build-a-number-guessing-game-project/build-a-number-guessing-game](https://www.freecodecamp.org/learn/relational-database/build-a-number-guessing-game-project/build-a-number-guessing-game)
+A PostgreSQL-backed command-line number guessing game built with Bash. Players enter a username, try to guess a random number between 1 and 1000, and their game statistics are stored persistently in a database.
 
-## Tests
-- Create a `number_guessing_game` folder in the `project` folder for your program
-- Create `number_guess.sh` in your `number_guessing_game` folder and give it executable permissions
-- Your script should have a shebang at the top of the file that uses `#!/bin/bash`
-- Turn the `number_guessing_game` folder into a git repository
-- Your git repository should have at least five commits
-- Your script should randomly generate a number that users have to guess
-- When you run your script, you should prompt the user for a username with `Enter your username:`, and take a username as input. Your database should allow usernames of at least 22 characters
-- If that username has been used before, it should print `Welcome back, <username>! You have played <games_played> games, and your best game took <best_game> guesses.`, with `<username>` being a users name from the database, `<games_played>` being the total number of games that user has played, and `<best_game>` being the fewest number of guesses it took that user to win the game
-- If the username has not been used before, you should print `Welcome, <username>! It looks like this is your first time here.`
-- The next line printed should be `Guess the secret number between 1 and 1000:` and input from the user should be read
-- Until they guess the secret number, it should print `It's lower than that, guess again:` if the previous input was higher than the secret number, and `It's higher than that, guess again:` if the previous input was lower than the secret number. Asking for input each time until they input the secret number.
-- If anything other than an integer is input as a guess, it should print `That is not an integer, guess again:`
-- When the secret number is guessed, your script should print `You guessed it in <number_of_guesses> tries. The secret number was <secret_number>. Nice job!`
-- The message for the first commit should be `Initial commit`
-- The rest of the commit messages should start with `fix:`, `feat:`, `refactor:`, `chore:`, or `test:`
-- You should finish your project while on the `main` branch, your working tree should be clean, and you should not have any uncommitted changes
+This project was completed as part of the freeCodeCamp Relational Database curriculum and demonstrates how to combine a Bash script with PostgreSQL for a real-world interactive application.
 
-## Test Result
+## Overview
 
-<img src="submit.PNG">
+The game:
 
+- prompts the player for a username
+- creates a new user record the first time they play
+- loads past stats for returning players
+- generates a random secret number between 1 and 1000
+- gives hints such as "higher" or "lower" until the correct guess is made
+- tracks how many guesses it took and stores the best result
+
+## Features
+
+- Username validation with a maximum length of 22 characters
+- Personalized welcome messages for new and returning players
+- Randomized secret number generation
+- Integer validation for player input
+- Feedback after each guess using higher/lower hints
+- Persistent score tracking using PostgreSQL
+- Best-game tracking for each username
+
+## Project Structure
+
+```text
+.
+├── README.md               # Project documentation
+├── number_guess.sh         # Bash script for the game logic
+├── number_guess.sql        # PostgreSQL database schema and setup
+├── submit.PNG             # Project submission screenshot
+└── .gitignore              # Git metadata (if present locally)
+```
+
+## Prerequisites
+
+Before running the project, ensure you have:
+
+- PostgreSQL installed and running
+- `psql` available in your shell PATH
+- Bash installed on your system
+
+## Database Setup
+
+The project uses a database named `number_guess`.
+
+To restore the database schema and create the required table:
+
+```bash
+psql -U freecodecamp -d postgres < number_guess.sql
+```
+
+If the database already exists, you can also connect directly:
+
+```bash
+psql --username=freecodecamp --dbname=number_guess
+```
+
+## Running the Game
+
+Make the script executable:
+
+```bash
+chmod +x number_guess.sh
+```
+
+Start the game:
+
+```bash
+./number_guess.sh
+```
+
+## Example Gameplay
+
+```text
+Enter your username:
+Aly
+Welcome, Aly! It looks like this is your first time here.
+Guess the secret number between 1 and 1000:
+500
+It's lower than that, guess again:
+750
+It's higher than that, guess again:
+600
+...
+You guessed it in 7 tries. The secret number was 600. Nice job!
+```
+
+## Database Schema
+
+The database contains a `users` table with the following structure:
+
+```sql
+CREATE TABLE public.users (
+    username character varying(22) NOT NULL,
+    games_played integer,
+    best_game integer
+);
+```
+
+This table stores:
+
+- `username`: unique player identifier
+- `games_played`: total games played by the user
+- `best_game`: best score in terms of fewest guesses
+
+## How the Script Works
+
+The `number_guess.sh` script performs the following steps:
+
+1. Connects to the PostgreSQL database using `psql`
+2. Prompts the user for a username
+3. Checks whether the user already exists
+4. Loads previous stats for returning players
+5. Generates a random number between 1 and 1000
+6. Accepts guesses until the correct number is found
+7. Validates integer input and provides feedback
+8. Updates the database with the final game result
+
+## Project Notes
+
+This project is a practical example of:
+
+- Bash scripting
+- PostgreSQL database interaction
+- input validation
+- state persistence
+- user stats tracking
+
+It is especially useful for learning how to build small interactive applications that store data in a relational database.
+
+## Verification
+
+To test the project locally:
+
+```bash
+chmod +x number_guess.sh
+./number_guess.sh
+```
+
+Then try a few inputs such as:
+
+- a valid username
+- a returning user
+- integer guesses
+- non-numeric input
+- a correct guess
+
+## FreeCodeCamp Reference
+
+This project was built based on the freeCodeCamp relational database project requirements for a Number Guessing Game.
+
+## Screenshot
+
+```text
+submit.PNG
+```
+
+The repository includes a project submission screenshot showing the completed result.
